@@ -25,14 +25,14 @@ public class BookTest {
 
     @Test
     public void shouldReturnFormattedBookDetails(){
-        String correctFormattedDetails = String.format("%-15s %-15s %-30s %n", title, author, year);
+        String correctFormattedDetails = String.format("%-35s %-35s %-35s %n", title, author, year);
 
         assertEquals(book.getFormattedBookDetails(), correctFormattedDetails);
     }
 
     @Test
     public void shouldReturnFormattedColumnHeaders(){
-        String correctFormattedDetails = String.format("%-15s %-15s %-30s %n", "Title", "Author", "Year");
+        String correctFormattedDetails = String.format("%-35s %-35s %-35s %n", "Title", "Author", "Year");
 
         assertEquals(book.getColumnHeaders(), correctFormattedDetails);
     }

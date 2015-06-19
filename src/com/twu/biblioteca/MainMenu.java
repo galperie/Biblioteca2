@@ -15,15 +15,27 @@ public class MainMenu {
     private PrintStream printStream;
     private BufferedReader bufferedReader;
     private Biblioteca biblioteca;
-    int userInput;
+    public boolean alive;
 
     public MainMenu(PrintStream printStream, BufferedReader bufferedReader, Biblioteca biblioteca) {
 
         this.printStream = printStream;
         this.bufferedReader = bufferedReader;
         this.biblioteca = biblioteca;
+        this.alive = true;
     }
-    
+
+    public void startMenu() {
+
+        printStream.println("Welcome to Biblioteca!");
+        printMenuPrompt();
+    }
+
+    public void printMenuPrompt(){
+        printStream.println("Please choose a menu option:   ");
+
+    }
+
     public void printMenuOptions() {
 
         printStream.println("1. List Books");
@@ -31,15 +43,15 @@ public class MainMenu {
 
 
     public void getUserInput() {
-        userInput = 0;
+        int userInput = 0;
 
         try {
             String inputFromBufferReader = bufferedReader.readLine();
             userInput = Integer.parseInt(inputFromBufferReader);
         }
-//        catch (NumberFormatException e){
-//
-//        }
+        catch (NumberFormatException e){
+            userInput = -1;
+        }
         catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,10 +62,18 @@ public class MainMenu {
     public void executeUserRequest(int userInput) {
         if(userInput==1){
             biblioteca.listBooks();
+            printMenuPrompt();
+            getUserInput();
+        } else if(userInput==2){
+            quitMenu();
+        } else {
+            printStream.print("Select a valid option!   ");
+            getUserInput();
         }
     }
 
-    public void startMenu() {
-        printStream.println("Welcome to Biblioteca!\nPlease choose a menu option: ");
+
+    public void quitMenu() {
+        alive = false;
     }
 }

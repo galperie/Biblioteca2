@@ -7,9 +7,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by egalperi on 6/17/15.
@@ -20,6 +20,7 @@ public class MainMenuTest {
     private MainMenu menu;
     private BufferedReader bufferedReader;
     private Biblioteca biblioteca;
+    private final String MENU_OPTION = "1. List Books";
 
     @Before
     public void setup(){
@@ -33,7 +34,7 @@ public class MainMenuTest {
     public void shouldPrintAllMenuOptions() {
         menu.printMenuOptions();
 
-        verify(printStream).println("1. List Books");
+        verify(printStream).println(MENU_OPTION);
     }
 
     @Test
@@ -44,17 +45,12 @@ public class MainMenuTest {
         verify(bufferedReader).readLine();
     }
 
-//    @Test void shouldReturnNegativeOneWhenThereIsNoInputFromUser() {
-//
-//    }
-//
-//    @Test void shouldReturnNegativeOneWhenUserInputIsEmptyString(){
-//
-//    }
-//
-//    @Test void shouldReturnNegativeOneWhenUserInputIsNonNumericString(){
-//
-//    }
+    @Test
+    public void shouldOpenTheBibliotecaWhenAppStarts() throws IOException {
+        menu.startMenu();
+
+        verify(printStream).println("Welcome to Biblioteca!\nPlease choose a menu option: ");
+    }
 
     @Test
     public void shouldTellTheBibliotecaToListBooksWhenUserInputIsListBooks() throws IOException {
@@ -65,10 +61,25 @@ public class MainMenuTest {
     }
 
     @Test
-    public void shouldOpenTheBibliotecaWhenAppStarts() throws IOException {
-        menu.startMenu();
+    public void shouldTellTheUserToReenterAValidOptionWhenUserInputAnInvalidOption() throws IOException {
+        when(bufferedReader.readLine()).thenReturn("INVALID", "", null, "1");
+        menu.getUserInput();
 
-        verify(printStream).println("Welcome to Biblioteca!\nPlease choose a menu option: ");
+        verify(printStream, times(3)).print("Select a valid option!   ");
     }
 
+    @Test
+    public void shouldQuitTheAppWhenUserSelectsQuitOption() throws IOException {
+        when(bufferedReader.readLine()).thenReturn("2");
+        menu.getUserInput();
+        assertEquals(false, menu.alive);
+    }
+
+    @Test
+    public void shouldKeepPromptingUserForInputUntilUserChoosesQuit() throws IOException {
+        when(bufferedReader.readLine()).thenReturn("1", "1", "2");
+        menu.getUserInput();
+
+        verify(printStream, times(2)).println("Please choose a menu option:   ");
+    }
 }
