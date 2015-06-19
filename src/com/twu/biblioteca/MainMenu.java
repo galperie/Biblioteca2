@@ -1,11 +1,8 @@
 package com.twu.biblioteca;
 
-import com.sun.deploy.util.StringUtils;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.Buffer;
 
 /**
  * Created by egalperi on 6/17/15.
@@ -38,11 +35,11 @@ public class MainMenu {
 
     public void printMenuOptions() {
 
-        printStream.println("1. List Books");
+        printStream.println("1. List Books\n2. Checkout a book\n3. Quit");
     }
 
 
-    public void getUserInput() {
+    public void getUserMenuOption() {
         int userInput = 0;
 
         try {
@@ -60,18 +57,33 @@ public class MainMenu {
     }
 
     public void executeUserRequest(int userInput) {
-        if(userInput==1){
+        if(userInput==1) {
             biblioteca.listBooks();
             printMenuPrompt();
-            getUserInput();
-        } else if(userInput==2){
+            getUserMenuOption();
+        }
+        else if(userInput == 2) {
+            checkoutBookProcess();
+            getUserMenuOption();
+        }
+        else if(userInput==3) {
             quitMenu();
         } else {
             printStream.print("Select a valid option!   ");
-            getUserInput();
+            getUserMenuOption();
         }
     }
 
+    private void checkoutBookProcess() {
+        printStream.println("Please enter the title of the desired book:    ");
+        String userInput = "";
+        try {
+            userInput = bufferedReader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        biblioteca.checkoutBook(userInput);
+    }
 
     public void quitMenu() {
         alive = false;

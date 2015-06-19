@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -66,6 +67,16 @@ public class BibliotecaTest {
         biblioteca.printColumnHeaders();
 
         verify(printStream).println(correctHeaders);
+    }
+
+    @Test
+    public void shouldMarkBookAsCheckedOutWhenCheckedOutByTheUser() {
+        Book book = new Book("ABC", "SomePerson", "2015");
+        books.add(book);
+
+        biblioteca.checkoutBook(book.title);
+
+        assertEquals(true, book.isCheckedOut);
     }
 
 }

@@ -36,10 +36,10 @@ public class BibliotecaApp {
         //biblioteca.openTheBiblioteca();
         menu.startMenu();
         menu.printMenuOptions();
-        menu.getUserInput();
+        menu.getUserMenuOption();
     }
 
-//    public int getUserInput() {
+//    public int getUserMenuOption() {
 //        printStream.print("Please enter the number of your menu item: ");
 //        int userInput = 0;
 //        try {

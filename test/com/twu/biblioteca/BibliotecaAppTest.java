@@ -29,7 +29,7 @@ public class BibliotecaAppTest {
     public void shouldStartGrabbingMenuOptionsWhenAppStarts() {
         bibliotecaApp.start();
 
-        verify(menu).getUserInput();
+        verify(menu).getUserMenuOption();
     }
 
 

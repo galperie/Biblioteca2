@@ -20,7 +20,10 @@ public class MainMenuTest {
     private MainMenu menu;
     private BufferedReader bufferedReader;
     private Biblioteca biblioteca;
-    private final String MENU_OPTION = "1. List Books";
+    private final String MENU_OPTION = "1. List Books\n2. Checkout a book\n3. Quit";
+    private final String LIST_BOOKS_OPTION = "1";
+    private final String CHECKOUT_OPTION = "2";
+    private final String QUIT_OPTION = "3";
 
     @Before
     public void setup(){
@@ -39,47 +42,59 @@ public class MainMenuTest {
 
     @Test
     public void shouldGrabInputFromBufferedReaderWhenGrabbingUserInput() throws IOException {
-        when(bufferedReader.readLine()).thenReturn("1");
-        menu.getUserInput();
+        when(bufferedReader.readLine()).thenReturn(LIST_BOOKS_OPTION, QUIT_OPTION);
+        menu.getUserMenuOption();
 
-        verify(bufferedReader).readLine();
+        verify(bufferedReader, times(2)).readLine();
     }
 
     @Test
     public void shouldOpenTheBibliotecaWhenAppStarts() throws IOException {
         menu.startMenu();
 
-        verify(printStream).println("Welcome to Biblioteca!\nPlease choose a menu option: ");
+        verify(printStream).println("Welcome to Biblioteca!");
     }
 
     @Test
     public void shouldTellTheBibliotecaToListBooksWhenUserInputIsListBooks() throws IOException {
-        when(bufferedReader.readLine()).thenReturn("1");
-        menu.getUserInput();
+        when(bufferedReader.readLine()).thenReturn(LIST_BOOKS_OPTION, QUIT_OPTION);
+
+        menu.getUserMenuOption();
 
         verify(biblioteca).listBooks();
     }
 
     @Test
     public void shouldTellTheUserToReenterAValidOptionWhenUserInputAnInvalidOption() throws IOException {
-        when(bufferedReader.readLine()).thenReturn("INVALID", "", null, "1");
-        menu.getUserInput();
+        when(bufferedReader.readLine()).thenReturn("INVALID", "", null, LIST_BOOKS_OPTION, QUIT_OPTION);
+
+        menu.getUserMenuOption();
 
         verify(printStream, times(3)).print("Select a valid option!   ");
     }
 
     @Test
     public void shouldQuitTheAppWhenUserSelectsQuitOption() throws IOException {
-        when(bufferedReader.readLine()).thenReturn("2");
-        menu.getUserInput();
+        when(bufferedReader.readLine()).thenReturn(QUIT_OPTION);
+        menu.getUserMenuOption();
         assertEquals(false, menu.alive);
     }
 
     @Test
     public void shouldKeepPromptingUserForInputUntilUserChoosesQuit() throws IOException {
-        when(bufferedReader.readLine()).thenReturn("1", "1", "2");
-        menu.getUserInput();
+        when(bufferedReader.readLine()).thenReturn(LIST_BOOKS_OPTION, LIST_BOOKS_OPTION, QUIT_OPTION);
+
+        menu.getUserMenuOption();
 
         verify(printStream, times(2)).println("Please choose a menu option:   ");
+    }
+
+    @Test
+    public void shouldPromptUserForTheBookToCheckOutWhenUserSelectsCheckoutBookOption() throws IOException {
+        when(bufferedReader.readLine()).thenReturn(CHECKOUT_OPTION, QUIT_OPTION);
+
+        menu.getUserMenuOption();
+
+        verify(printStream).println("Please enter the title of the desired book:    ");
     }
 }
