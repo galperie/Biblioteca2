@@ -9,6 +9,7 @@ import java.io.PrintStream;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by egalperi on 6/17/15.
@@ -18,12 +19,14 @@ public class MainMenuTest {
     private PrintStream printStream;
     private MainMenu menu;
     private BufferedReader bufferedReader;
+    private Biblioteca biblioteca;
 
     @Before
     public void setup(){
         printStream = mock(PrintStream.class);
         bufferedReader = mock(BufferedReader.class);
-        menu = new MainMenu(printStream, bufferedReader);
+        biblioteca = mock(Biblioteca.class);
+        menu = new MainMenu(printStream, bufferedReader, biblioteca);
     }
 
     @Test
@@ -35,21 +38,37 @@ public class MainMenuTest {
 
     @Test
     public void shouldGrabInputFromBufferedReaderWhenGrabbingUserInput() throws IOException {
-        menu.startGrabbingMenuOptions();
+        when(bufferedReader.readLine()).thenReturn("1");
+        menu.getUserInput();
 
         verify(bufferedReader).readLine();
     }
 
-    @Test void shouldReturnNegativeOneWhenThereIsNoInputFromUser() {
+//    @Test void shouldReturnNegativeOneWhenThereIsNoInputFromUser() {
+//
+//    }
+//
+//    @Test void shouldReturnNegativeOneWhenUserInputIsEmptyString(){
+//
+//    }
+//
+//    @Test void shouldReturnNegativeOneWhenUserInputIsNonNumericString(){
+//
+//    }
 
+    @Test
+    public void shouldTellTheBibliotecaToListBooksWhenUserInputIsListBooks() throws IOException {
+        when(bufferedReader.readLine()).thenReturn("1");
+        menu.getUserInput();
+
+        verify(biblioteca).listBooks();
     }
 
-    @Test void shouldReturnNegativeOneWhenUserInputIsEmptyString(){
+    @Test
+    public void shouldOpenTheBibliotecaWhenAppStarts() throws IOException {
+        menu.startMenu();
 
-    }
-
-    @Test void shouldReturnNegativeOneWhenUserInputIsNonNumericString(){
-
+        verify(printStream).println("Welcome to Biblioteca!\nPlease choose a menu option: ");
     }
 
 }

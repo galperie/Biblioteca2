@@ -27,15 +27,16 @@ public class BibliotecaApp {
         BufferedReader bufferedReader = new BufferedReader(in);
         PrintStream printStream = System.out;
         Biblioteca biblioteca = new Biblioteca(printStream, books);
-        MainMenu menu = new MainMenu(printStream, bufferedReader);
+        MainMenu menu = new MainMenu(printStream, bufferedReader, biblioteca);
         BibliotecaApp bibliotecaApp = new BibliotecaApp(biblioteca, menu);
         bibliotecaApp.start();
     }
 
     public void start() {
-        biblioteca.openTheBiblioteca();
+        //biblioteca.openTheBiblioteca();
+        menu.startMenu();
         menu.printMenuOptions();
-        menu.startGrabbingMenuOptions();
+        menu.getUserInput();
     }
 
 //    public int getUserInput() {

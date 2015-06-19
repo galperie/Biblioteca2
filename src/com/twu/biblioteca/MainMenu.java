@@ -14,20 +14,23 @@ public class MainMenu {
 
     private PrintStream printStream;
     private BufferedReader bufferedReader;
+    private Biblioteca biblioteca;
     int userInput;
 
-    public MainMenu(PrintStream printStream, BufferedReader bufferedReader) {
+    public MainMenu(PrintStream printStream, BufferedReader bufferedReader, Biblioteca biblioteca) {
 
         this.printStream = printStream;
         this.bufferedReader = bufferedReader;
+        this.biblioteca = biblioteca;
     }
     
     public void printMenuOptions() {
+
         printStream.println("1. List Books");
     }
 
 
-    public void startGrabbingMenuOptions() {
+    public void getUserInput() {
         userInput = 0;
 
         try {
@@ -40,5 +43,17 @@ public class MainMenu {
         catch (IOException e) {
             e.printStackTrace();
         }
+
+        executeUserRequest(userInput);
+    }
+
+    public void executeUserRequest(int userInput) {
+        if(userInput==1){
+            biblioteca.listBooks();
+        }
+    }
+
+    public void startMenu() {
+        printStream.println("Welcome to Biblioteca!\nPlease choose a menu option: ");
     }
 }

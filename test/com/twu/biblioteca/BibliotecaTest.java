@@ -24,12 +24,6 @@ public class BibliotecaTest {
         biblioteca = new Biblioteca(printStream, books);
     }
 
-    @Test
-    public void printWelcomeMessageWhenBibliotecaOpens(){
-        biblioteca.openTheBiblioteca();
-
-        verify(printStream).println("Welcome to Biblioteca!");
-    }
 
     @Test
     public void shouldListNoBooksWhenThereIsNoBook(){

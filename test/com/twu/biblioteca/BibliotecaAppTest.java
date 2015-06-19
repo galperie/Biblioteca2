@@ -23,18 +23,13 @@ public class BibliotecaAppTest {
     }
 
 
-    @Test
-    public void shouldOpenTheBibliotecaWhenAppStarts() throws IOException {
-        bibliotecaApp.start();
 
-        verify(biblioteca).openTheBiblioteca();
-    }
 
     @Test
     public void shouldStartGrabbingMenuOptionsWhenAppStarts() {
         bibliotecaApp.start();
 
-        verify(menu).startGrabbingMenuOptions();
+        verify(menu).getUserInput();
     }
 
 

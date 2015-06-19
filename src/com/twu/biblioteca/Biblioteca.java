@@ -21,11 +21,10 @@ public class Biblioteca {
         }
     }
 
-    public void openTheBiblioteca(){
-        printStream.println("Welcome to Biblioteca!");
-    }
 
     public void printColumnHeaders() {
         printStream.println(String.format("%-35s %-35s %-35s %n", "Title", "Author", "Year"));
     }
+
+
 }
