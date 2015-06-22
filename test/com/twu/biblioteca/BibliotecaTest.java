@@ -89,4 +89,11 @@ public class BibliotecaTest {
         verify(printStream).println("Thank you! Enjoy the book!");
     }
 
+    @Test
+    public void shouldPrintUnsuccessfulCheckoutMessageWhenBookIsUnavailable() {
+        biblioteca.checkoutBook("some book");
+
+        verify(printStream).println("That book is not available.");
+    }
+
 }

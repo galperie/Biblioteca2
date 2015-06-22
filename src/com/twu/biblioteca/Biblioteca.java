@@ -30,12 +30,17 @@ public class Biblioteca {
 
 
     public void checkoutBook(String title) {
+        boolean isAvailable = false;
         for (Book book : books) {
             if(book.title.equals(title)){
                 book.isCheckedOut = true;
                 printStream.println("Thank you! Enjoy the book!");
+                isAvailable = true;
                 break;
             }
+        }
+        if(isAvailable == false) {
+            printStream.println("That book is not available.");
         }
     }
 }
