@@ -96,4 +96,15 @@ public class BibliotecaTest {
         verify(printStream).println("That book is not available.");
     }
 
+    @Test
+    public void shouldMarkBookAsCheckedInWhenBookIsBeingReturnedByTheUser() {
+        Book book = new Book("ABC", "SomePerson", "2015");
+        books.add(book);
+        book.isCheckedOut = true;
+
+        biblioteca.returnBook("ABC");
+
+        assertEquals(false, book.isCheckedOut);
+    }
+
 }

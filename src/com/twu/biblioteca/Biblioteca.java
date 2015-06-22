@@ -43,4 +43,14 @@ public class Biblioteca {
             printStream.println("That book is not available.");
         }
     }
+
+    public void returnBook(String title) {
+        for (Book book : books) {
+            if(book.title.equals(title)){
+                book.isCheckedOut = false;
+                break;
+            }
+        }
+    }
+
 }

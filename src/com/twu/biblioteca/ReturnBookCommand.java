@@ -9,14 +9,18 @@ public class ReturnBookCommand implements Command {
 
 
     private PrintStream printStream;
+    private Biblioteca biblioteca;
 
-    public ReturnBookCommand(PrintStream printStream) {
+    public ReturnBookCommand(PrintStream printStream, Biblioteca biblioteca) {
 
         this.printStream = printStream;
+        this.biblioteca = biblioteca;
     }
 
     @Override
     public void execute() {
         printStream.println("Enter title of book you wish to return: ");
+
+        biblioteca.returnBook("ABC");
     }
 }
