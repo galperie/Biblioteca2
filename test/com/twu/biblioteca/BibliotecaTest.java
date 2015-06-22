@@ -119,4 +119,14 @@ public class BibliotecaTest {
         verify(printStream).println("Thank you for returning the book");
     }
 
+    @Test
+    public void shouldPrintUnsuccessfulReturnBookMessageWhenBookIsReturnedUnsuccessfully() {
+        Book book = new Book("ABC", "SomePerson", "2015");
+        books.add(book);
+
+        biblioteca.returnBook("ABC");
+
+        verify(printStream).println("That is not a valid book to return");
+    }
+
 }

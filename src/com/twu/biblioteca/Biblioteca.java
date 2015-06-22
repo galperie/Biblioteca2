@@ -45,12 +45,17 @@ public class Biblioteca {
     }
 
     public void returnBook(String title) {
+        boolean canReturn = false;
         for (Book book : books) {
-            if(book.title.equals(title)){
+            if(book.title.equals(title) && book.isCheckedOut){
                 book.isCheckedOut = false;
                 printStream.println("Thank you for returning the book");
+                canReturn = true;
                 break;
             }
+        }
+        if(canReturn == false) {
+            printStream.println("That is not a valid book to return");
         }
     }
 
