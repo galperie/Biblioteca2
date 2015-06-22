@@ -6,6 +6,8 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -24,13 +26,27 @@ public class MainMenuTest {
     private final String LIST_BOOKS_OPTION = "1";
     private final String CHECKOUT_OPTION = "2";
     private final String QUIT_OPTION = "3";
+    private Map<Integer, Command> commandMap;
+    private Command quitCommand;
+    private Command listBookCommand;
+    private Command checkOutCommand;
+    private Command invalidCommand;
 
     @Before
     public void setup(){
         printStream = mock(PrintStream.class);
         bufferedReader = mock(BufferedReader.class);
         biblioteca = mock(Biblioteca.class);
-        menu = new MainMenu(printStream, bufferedReader, biblioteca);
+        commandMap = new HashMap<Integer, Command>();
+        quitCommand = mock(QuitCommand.class);
+        checkOutCommand = mock(CheckOutBooksCommand.class);
+        listBookCommand = mock(ListBooksCommand.class);
+        invalidCommand = mock(InvalidCommand.class);
+        commandMap.put(3, quitCommand);
+        commandMap.put(2, checkOutCommand);
+        commandMap.put(1, listBookCommand);
+        commandMap.put(0, invalidCommand);
+        menu = new MainMenu(printStream, bufferedReader, biblioteca, commandMap);
     }
 
     @Test
@@ -43,6 +59,7 @@ public class MainMenuTest {
     @Test
     public void shouldGrabInputFromBufferedReaderWhenGrabbingUserInput() throws IOException {
         when(bufferedReader.readLine()).thenReturn(LIST_BOOKS_OPTION, QUIT_OPTION);
+
         menu.getUserMenuOption();
 
         verify(bufferedReader, times(2)).readLine();
@@ -56,28 +73,32 @@ public class MainMenuTest {
     }
 
     @Test
-    public void shouldTellTheBibliotecaToListBooksWhenUserInputIsListBooks() throws IOException {
-        when(bufferedReader.readLine()).thenReturn(LIST_BOOKS_OPTION, QUIT_OPTION);
-
-        menu.getUserMenuOption();
-
-        verify(biblioteca).listBooks();
-    }
-
-    @Test
     public void shouldTellTheUserToReenterAValidOptionWhenUserInputAnInvalidOption() throws IOException {
         when(bufferedReader.readLine()).thenReturn("INVALID", "", null, LIST_BOOKS_OPTION, QUIT_OPTION);
 
         menu.getUserMenuOption();
 
-        verify(printStream, times(3)).print("Select a valid option!   ");
+        verify(invalidCommand, times(3)).execute();
+
     }
 
     @Test
     public void shouldQuitTheAppWhenUserSelectsQuitOption() throws IOException {
         when(bufferedReader.readLine()).thenReturn(QUIT_OPTION);
+
         menu.getUserMenuOption();
-        assertEquals(false, menu.alive);
+
+        verify(quitCommand).execute();
+    }
+
+    @Test
+    public void shouldListBooksWhenUserSelectsListBooksOption() throws IOException {
+        when(bufferedReader.readLine()).thenReturn(LIST_BOOKS_OPTION, QUIT_OPTION);
+
+        menu.getUserMenuOption();
+
+        verify(listBookCommand).execute();
+
     }
 
     @Test
@@ -95,6 +116,6 @@ public class MainMenuTest {
 
         menu.getUserMenuOption();
 
-        verify(printStream).println("Please enter the title of the desired book:    ");
+        verify(checkOutCommand).execute();
     }
 }

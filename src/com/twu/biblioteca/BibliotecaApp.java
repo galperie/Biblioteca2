@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BibliotecaApp {
 
@@ -27,7 +29,12 @@ public class BibliotecaApp {
         BufferedReader bufferedReader = new BufferedReader(in);
         PrintStream printStream = System.out;
         Biblioteca biblioteca = new Biblioteca(printStream, books);
-        MainMenu menu = new MainMenu(printStream, bufferedReader, biblioteca);
+        Map commandMap = new HashMap<Integer, Command>();
+        commandMap.put(1, new ListBooksCommand(biblioteca));
+        commandMap.put(2, new CheckOutBooksCommand(biblioteca, printStream, bufferedReader));
+        commandMap.put(3, new QuitCommand());
+        commandMap.put(0, new InvalidCommand(printStream));
+        MainMenu menu = new MainMenu(printStream, bufferedReader, biblioteca, commandMap);
         BibliotecaApp bibliotecaApp = new BibliotecaApp(biblioteca, menu);
         bibliotecaApp.start();
     }
