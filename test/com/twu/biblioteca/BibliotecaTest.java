@@ -17,6 +17,7 @@ public class BibliotecaTest {
     PrintStream printStream;
     List<Book> books;
     Biblioteca biblioteca;
+    private Book book;
 
     @Before
     public void setup() {

@@ -16,7 +16,7 @@ public class MainMenu {
     private Biblioteca biblioteca;
     private Map<Integer, Command> commandMap;
     public boolean alive;
-    private int quitCommand = 3;
+    private int quitCommand = 4;
     private int userInput;
 
     public MainMenu(PrintStream printStream, BufferedReader bufferedReader, Biblioteca biblioteca, Map<Integer, Command> commandMap) {
@@ -62,10 +62,11 @@ public class MainMenu {
             e.printStackTrace();
         }
 
-        if(userInput<1 || userInput>3){
+        if(userInput<1 || userInput>4){
             userInput = 0;
         }
         executeUserRequest(userInput);
+
     }
 
     public void executeUserRequest(int userInput) {

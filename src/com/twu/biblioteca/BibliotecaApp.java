@@ -32,7 +32,8 @@ public class BibliotecaApp {
         Map commandMap = new HashMap<Integer, Command>();
         commandMap.put(1, new ListBooksCommand(biblioteca));
         commandMap.put(2, new CheckOutBooksCommand(biblioteca, printStream, bufferedReader));
-        commandMap.put(3, new QuitCommand());
+        commandMap.put(4, new QuitCommand());
+        commandMap.put(3, new ReturnBookCommand(printStream, biblioteca, bufferedReader));
         commandMap.put(0, new InvalidCommand(printStream));
         MainMenu menu = new MainMenu(printStream, bufferedReader, biblioteca, commandMap);
         BibliotecaApp bibliotecaApp = new BibliotecaApp(biblioteca, menu);
@@ -40,20 +41,8 @@ public class BibliotecaApp {
     }
 
     public void start() {
-        //biblioteca.openTheBiblioteca();
         menu.startMenu();
         menu.printMenuOptions();
         menu.getUserMenuOption();
     }
-
-//    public int getUserMenuOption() {
-//        printStream.print("Please enter the number of your menu item: ");
-//        int userInput = 0;
-//        try {
-//            userInput = Integer.parseInt(bufferedReader.readLine());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return userInput;
-//    }
 }
