@@ -22,11 +22,13 @@ public class MainMenuTest {
     private MainMenu menu;
     private BufferedReader bufferedReader;
     private Biblioteca biblioteca;
-    private final String MENU_OPTION = "1. List Books\n2. Checkout a book\n3. Quit";
+    private final String MENU_OPTION = "1. List Books\n2. Checkout a book\n3. Return a book\n4. Quit\n";
     private final String LIST_BOOKS_OPTION = "1";
     private final String CHECKOUT_OPTION = "2";
-    private final String QUIT_OPTION = "3";
+    private final String RETURN_BOOK_OPTION = "3";
+    private final String QUIT_OPTION = "4";
     private Map<Integer, Command> commandMap;
+    private Command returnBookCommand;
     private Command quitCommand;
     private Command listBookCommand;
     private Command checkOutCommand;
@@ -42,8 +44,10 @@ public class MainMenuTest {
         checkOutCommand = mock(CheckOutBooksCommand.class);
         listBookCommand = mock(ListBooksCommand.class);
         invalidCommand = mock(InvalidCommand.class);
-        commandMap.put(3, quitCommand);
+        returnBookCommand = mock(ReturnBookCommand.class);
+        commandMap.put(4, quitCommand);
         commandMap.put(2, checkOutCommand);
+        commandMap.put(3, returnBookCommand);
         commandMap.put(1, listBookCommand);
         commandMap.put(0, invalidCommand);
         menu = new MainMenu(printStream, bufferedReader, biblioteca, commandMap);
@@ -118,4 +122,15 @@ public class MainMenuTest {
 
         verify(checkOutCommand).execute();
     }
+
+    @Test
+    public void shouldPromptUserToReturnBookWhenUserSelectsReturnBookOption() throws IOException {
+        when(bufferedReader.readLine()).thenReturn(RETURN_BOOK_OPTION, QUIT_OPTION);
+
+        menu.getUserMenuOption();
+
+        verify(returnBookCommand).execute();
+    }
+
+
 }
