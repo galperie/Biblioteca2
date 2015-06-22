@@ -48,6 +48,7 @@ public class Biblioteca {
         for (Book book : books) {
             if(book.title.equals(title)){
                 book.isCheckedOut = false;
+                printStream.println("Thank you for returning the book");
                 break;
             }
         }
