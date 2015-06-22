@@ -30,33 +30,35 @@ public class Biblioteca {
 
 
     public void checkoutBook(String title) {
-        boolean isAvailable = false;
-        for (Book book : books) {
-            if(book.title.equals(title)){
-                book.isCheckedOut = true;
-                printStream.println("Thank you! Enjoy the book!");
-                isAvailable = true;
-                break;
-            }
-        }
-        if(isAvailable == false) {
+
+        Book book = findBook(title);
+        if(book==null || book.isCheckedOut){
             printStream.println("That book is not available.");
+        } else {
+            printStream.println("Thank you! Enjoy the book!");
+            book.isCheckedOut = true;
         }
     }
 
     public void returnBook(String title) {
-        boolean canReturn = false;
+
+        Book book = findBook(title);
+        if(book==null || !book.isCheckedOut){
+            printStream.println("That is not a valid book to return");
+        } else {
+            printStream.println("Thank you for returning the book");
+            book.isCheckedOut = false;
+        }
+    }
+
+    private Book findBook(String title) {
+        Book bookToFind = null;
         for (Book book : books) {
-            if(book.title.equals(title) && book.isCheckedOut){
-                book.isCheckedOut = false;
-                printStream.println("Thank you for returning the book");
-                canReturn = true;
-                break;
+            if(book.title.equals(title)){
+                return book;
             }
         }
-        if(canReturn == false) {
-            printStream.println("That is not a valid book to return");
-        }
+        return bookToFind;
     }
 
 }
