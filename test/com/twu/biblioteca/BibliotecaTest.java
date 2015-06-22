@@ -79,4 +79,14 @@ public class BibliotecaTest {
         assertEquals(true, book.isCheckedOut);
     }
 
+    @Test
+    public void shouldPrintThankYouMessageWhenBookIsSuccessfullyCheckedOut(){
+        Book book = new Book("ABC", "SomePerson", "2015");
+        books.add(book);
+
+        biblioteca.checkoutBook(book.title);
+
+        verify(printStream).println("Thank you! Enjoy the book!");
+    }
+
 }
